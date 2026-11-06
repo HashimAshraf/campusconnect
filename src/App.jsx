@@ -9,6 +9,7 @@ import MyEvents from "./pages/MyEvents";
 const forRole = (role, page) => <ProtectedRoute roles={[role]}>{page}</ProtectedRoute>;
 import Organizer, { Attendees } from "./pages/Organizer";
 import EventForm from "./pages/EventForm";
+import Admin from "./pages/Admin";
 
 export default function App() {
   const { user, logout } = useApp();
@@ -20,6 +21,7 @@ export default function App() {
           <Link to="/events">Events</Link>
           {user?.role === "student" && <Link to="/my-events">My events</Link>}
           {user?.role === "organizer" && <Link to="/organizer">My club</Link>}
+          {user?.role === "admin" && <Link to="/admin">Admin</Link>}
           {user ? <button className="btn btn-sm" onClick={logout}>Log out</button> : (
             <><Link to="/login">Log in</Link><Link to="/signup">Sign up</Link></>
           )}
@@ -37,6 +39,7 @@ export default function App() {
           <Route path="/organizer/new" element={forRole("organizer", <EventForm />)} />
           <Route path="/organizer/:id/edit" element={forRole("organizer", <EventForm />)} />
           <Route path="/organizer/:id/attendees" element={forRole("organizer", <Attendees />)} />
+          <Route path="/admin" element={forRole("admin", <Admin />)} />
           <Route path="*" element={<p>Page not found. <Link to="/">Go home</Link></p>} />
         </Routes>
       </main>
